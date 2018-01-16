@@ -36,7 +36,6 @@
 
 
     <body class="fixed-left">
-
         <!-- Begin page -->
         <div id="wrapper">
 
@@ -105,10 +104,10 @@
                     <!-- User -->
                     <div class="user-box">
                         <div class="user-img">
-                            <img src="assets/images/users/avatar-1.jpg" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
+                            <img src="<%-avatar%>" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
                             <div class="user-status offline"><i class="zmdi zmdi-dot-circle"></i></div>
                         </div>
-                        <h5><a href="#">Mat Helme</a> </h5>
+                        <h5><a href="#"><%-name%></a> </h5>
                         <ul class="list-inline">
                             <li>
                                 <a href="#" >
@@ -129,10 +128,7 @@
                     <div id="sidebar-menu">
                         <ul>
                           <li class="text-muted menu-title">Navigation</li>
-                            <li>
-                                <a href="/admin" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
-                            </li>
-
+                            <%-admin%>
                             <li>
                                 <a href="/offers" class="waves-effect"><i class="fa fa-list" hidden="true"></i> <span> Offer List </span> </a>
                             </li>
@@ -172,88 +168,9 @@
 
                         <div class="row">
 
-                            <div class="col-lg-6 col-md-6">
-                            <div class="card-box">
-                                    <div class="dropdown pull-right">
-                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="zmdi zmdi-more-vert"></i>
-                                        </a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Action</a></li>
-                                            <li><a href="#">Another action</a></li>
-                                            <li><a href="#">Something else here</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Separated link</a></li>
-                                        </ul>
-                                    </div>
-
-                              <h4 class="header-title m-t-0 m-b-30">Total Revenue</h4>
-
-                                    <div class="widget-chart-1">
-                                        <div class="widget-chart-box-1">
-                                            <input data-plugin="knob" data-width="80" data-height="80" data-fgColor="#f05050 "
-                                               data-bgColor="#F9B9B9" value="58"
-                                               data-skin="tron" data-angleOffset="180" data-readOnly=true
-                                               data-thickness=".15"/>
-                                        </div>
-
-                                        <div class="widget-detail-1">
-                                            <h2 class="p-t-10 m-b-0"> 256 </h2>
-                                            <p class="text-muted">Paid</p>
-                                        </div>
-                                    </div>
-                            </div>
-                            </div><!-- end col -->
-
-                            <!-- end col -->
-
-                            
-
-                            <div class="col-lg-6 col-md-6">
-                            <div class="card-box">
-                                    <div class="dropdown pull-right">
-                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="zmdi zmdi-more-vert"></i>
-                                        </a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Action</a></li>
-                                            <li><a href="#">Another action</a></li>
-                                            <li><a href="#">Something else here</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Separated link</a></li>
-                                        </ul>
-                                    </div>
-
-                              <h4 class="header-title m-t-0 m-b-30">Daily Sales</h4>
-
-                                    <div class="widget-box-2">
-                                        <div class="widget-detail-2">
-                                            <span class="badge badge-pink pull-left m-t-20">32% <i class="zmdi zmdi-trending-up"></i> </span>
-                                            <h2 class="m-b-0"> 158 </h2>
-                                            <p class="text-muted m-b-25">Conversion</p>
-                                        </div>
-                                        <div class="progress progress-bar-pink-alt progress-sm m-b-0">
-                                            <div class="progress-bar progress-bar-pink" role="progressbar"
-                                                 aria-valuenow="77" aria-valuemin="0" aria-valuemax="100"
-                                                 style="width: 77%;">
-                                                <span class="sr-only">77% Complete</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-                            </div><!-- end col -->
-
-                        </div>
-                        <!-- end row -->
-
-                        <!-- end row -->
-
-
-                        <!-- end row -->
-
-
+                            <div class="col-lg-12 col-md-12">
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-12">
                               <div class="card-box">
                                     <div class="dropdown pull-right">
                                         <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
@@ -314,103 +231,6 @@
                                     </div>
                 </div>
                             </div><!-- end col -->
-
-                            <div class="col-lg-8">
-                                <div class="card-box">
-                                    <div class="dropdown pull-right">
-                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                            <i class="zmdi zmdi-more-vert"></i>
-                                        </a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Action</a></li>
-                                            <li><a href="#">Another action</a></li>
-                                            <li><a href="#">Something else here</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Separated link</a></li>
-                                        </ul>
-                                    </div>
-
-                              <h4 class="header-title m-t-0 m-b-30">Latest Projects</h4>
-
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Project Name</th>
-                                                <th>Start Date</th>
-                                                <th>Due Date</th>
-                                                <th>Status</th>
-                                                <th>Assign</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Adminto Admin v1</td>
-                                                    <td>01/01/2016</td>
-                                                    <td>26/04/2016</td>
-                                                    <td><span class="label label-danger">Released</span></td>
-                                                    <td>Coderthemes</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Adminto Frontend v1</td>
-                                                    <td>01/01/2016</td>
-                                                    <td>26/04/2016</td>
-                                                    <td><span class="label label-success">Released</span></td>
-                                                    <td>Adminto admin</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>Adminto Admin v1.1</td>
-                                                    <td>01/05/2016</td>
-                                                    <td>10/05/2016</td>
-                                                    <td><span class="label label-pink">Pending</span></td>
-                                                    <td>Coderthemes</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>4</td>
-                                                    <td>Adminto Frontend v1.1</td>
-                                                    <td>01/01/2016</td>
-                                                    <td>31/05/2016</td>
-                                                    <td><span class="label label-purple">Work in Progress</span>
-                                                    </td>
-                                                    <td>Adminto admin</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>5</td>
-                                                    <td>Adminto Admin v1.3</td>
-                                                    <td>01/01/2016</td>
-                                                    <td>31/05/2016</td>
-                                                    <td><span class="label label-warning">Coming soon</span></td>
-                                                    <td>Coderthemes</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>6</td>
-                                                    <td>Adminto Admin v1.3</td>
-                                                    <td>01/01/2016</td>
-                                                    <td>31/05/2016</td>
-                                                    <td><span class="label label-primary">Coming soon</span></td>
-                                                    <td>Adminto admin</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>7</td>
-                                                    <td>Adminto Admin v1.3</td>
-                                                    <td>01/01/2016</td>
-                                                    <td>31/05/2016</td>
-                                                    <td><span class="label label-primary">Coming soon</span></td>
-                                                    <td>Adminto admin</td>
-                                                </tr>
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div><!-- end col -->
-
                         </div>
                         <!-- end row -->
                         <div class="row">

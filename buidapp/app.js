@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var FacebookStrategy = require('passport-facebook');
 var sassMiddleware = require('node-sass-middleware');
 var session = require("express-session")
+var cookieParser = require('cookie-parser')
 
 var home = require('./routes/home');
 var index = require('./routes/index');
@@ -31,7 +32,8 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
-app.use(session({ secret: 'coppycat', resave: true, saveUninitialized: true }));
+app.use(cookieParser("vanvietquocanh"));
+app.use(session({ secret: 'coppycat', resave: true, saveUninitialized: true, cookie:{maxAge:24*60*60} }));
 
 passport.use(passport.initialize());
 passport.use(passport.session());
@@ -40,20 +42,21 @@ passport.use(new FacebookStrategy({
     clientSecret: "f85117c134e80d3ecd07b4baa3bb41a4",
     callbackURL: 'http://localhost:3000/admin',
     profileFields: ['id', 'displayName', 'photos', 'email'],
-     enableProof :  true 
-  }, function(accessToken, refreshToken, profile, cb) {
-      console.log(profile);
+     enableProof :  false
+  }, function(accessToken, refreshToken, profile, done) {
+    console.log(profile.photos[0].value);
+      // res.redirect("/admin");
     // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-      // return cb(err, user);
+      done(null, profile);
     }))
 // );
 passport.serializeUser((user, done)=>{
   console.log("user, done")
-  // done(null, user)
+  done(null, user)
 })
 passport.deserializeUser((id, done)=>{
   console.log("id, done")
-  //done(null, user)
+  done(null, user)
 })
 app.route("/facebook").get(passport.authenticate("facebook"))
 app.use('/', home);
