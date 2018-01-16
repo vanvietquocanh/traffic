@@ -30,6 +30,32 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
+
+app.use(session({ secret: 'coppycat', resave: true, saveUninitialized: true }));
+
+passport.use(passport.initialize());
+passport.use(passport.session());
+passport.use(new FacebookStrategy({
+    clientID: "148127002482488",
+    clientSecret: "f85117c134e80d3ecd07b4baa3bb41a4",
+    callbackURL: 'http://localhost:3000/admin',
+    profileFields: ['id', 'displayName', 'photos', 'email'],
+     enableProof :  true 
+  }, function(accessToken, refreshToken, profile, cb) {
+      console.log(profile);
+    // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      // return cb(err, user);
+    }))
+// );
+passport.serializeUser((user, done)=>{
+  console.log("user, done")
+  // done(null, user)
+})
+passport.deserializeUser((id, done)=>{
+  console.log("id, done")
+  //done(null, user)
+})
+app.route("/facebook").get(passport.authenticate("facebook"))
 app.use('/', home);
 app.use('/signin', signin);
 app.use('/admin', index);
@@ -39,27 +65,6 @@ app.use('/special', special);
 app.use('/offers', offers);
 app.use('/phono', phono);
 app.use('/checkicon', checkicon);
-
-app.use(session({ secret: 'coppycat', resave: true, saveUninitialized: true }));
-
-passport.use(new FacebookStrategy({
-    clientID: "148127002482488",
-    clientSecret: "f85117c134e80d3ecd07b4baa3bb41a4",
-    callbackURL: 'http://localhost:3000/admin',
-    profileFields: ["email", "gender", "locale", "displayNamme", "age", "sex"]
-  },function(accessToken, refreshToken, profile, cb) {
-      console.log(profile);
-    // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-      // return cb(err, user);
-    }))
-// );
-passport.serializeUser((user, done)=>{
-  done(null, user)
-})
-passport.deserializeUser((id, done)=>{
-  done(null, user)
-})
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
