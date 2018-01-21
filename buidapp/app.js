@@ -1,16 +1,16 @@
 var express = require('express');
 var path = require('path');
 var passport = require("passport")
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var FacebookStrategy = require('passport-facebook');
 var sassMiddleware = require('node-sass-middleware');
 var session = require("express-session")
-var cookieParser = require('cookie-parser')
 
 var home = require('./routes/home');
 var index = require('./routes/index');
 var signin = require('./routes/signin');
+var saveData = require('./routes/saveData');
+var apiAwaitingApproval = require('./routes/apiAwaitingApproval');
 var calendar = require('./routes/calendar');
 var profile = require('./routes/profile');
 var special = require('./routes/special');
@@ -30,13 +30,20 @@ app.use(sassMiddleware({
   sourceMap: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session(
+                { secret: 'coppycat',
+                  resave: true,
+                  saveUninitialized: true,
+                  cookie:{
+                    path:"/admin",
+                    maxAge:86400000
+                  }
+                }
+              ));
 
-app.use(cookieParser("vanvietquocanh"));
-app.use(session({ secret: 'coppycat', resave: true, saveUninitialized: true, cookie:{maxAge:24*60*60} }));
-
-passport.use(passport.initialize());
-passport.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(new FacebookStrategy({
     clientID: "148127002482488",
     clientSecret: "f85117c134e80d3ecd07b4baa3bb41a4",
@@ -44,25 +51,22 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'displayName', 'photos', 'email'],
      enableProof :  false
   }, function(accessToken, refreshToken, profile, done) {
-    console.log(profile.photos[0].value);
-      // res.redirect("/admin");
-    // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
       done(null, profile);
     }))
-// );
 passport.serializeUser((user, done)=>{
-  console.log("user, done")
   done(null, user)
 })
 passport.deserializeUser((id, done)=>{
-  console.log("id, done")
-  done(null, user)
+  done(null, id)
 })
+
 app.route("/facebook").get(passport.authenticate("facebook"))
 app.use('/', home);
 app.use('/signin', signin);
 app.use('/admin', index);
 app.use('/calendar', calendar);
+app.use('/savedata', saveData);
+app.use('/apiAwaitingApproval', apiAwaitingApproval);
 app.use('/profile', profile);
 app.use('/special', special);
 app.use('/offers', offers);

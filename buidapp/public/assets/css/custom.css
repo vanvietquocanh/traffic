@@ -1,0 +1,21 @@
+#updateDB{
+	background: #a0e0bf;
+	border:  1px solid #fff;
+	border-radius: .3em;
+	padding: 0 1em;
+	color: #253138;
+	margin-left: 5%;
+}
+#updateDB:hover{
+	background: #fff;
+	border: 1px solid #a0e0bf;
+	color: #a0e0bf;
+}
+.search{
+	margin-left: 70%;
+	border-radius: .3em;
+	border: 1px solid #fff;
+	color: #253138;
+	padding:  0 1em;
+	background: #a0e0bf;
+}

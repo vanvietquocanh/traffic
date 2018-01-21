@@ -5,10 +5,5 @@ var passport = require("passport")
 
 /* GET users listing. */
 router.get('/', passport.authenticate('facebook'));
-router.get('/signin/return', 
-  passport.authenticate('facebook', { failureRedirect: '/signin' }),
-  function(req, res) {
-    res.redirect('/admin');
-  });
 
 module.exports = router;
