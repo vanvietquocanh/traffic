@@ -10,7 +10,7 @@
         <link rel="shortcut icon" href="assets/images/favicon.ico">
 
         <!-- App title -->
-        <title>Adminto - Responsive Admin Dashboard Template</title>
+        <title>Adminto - <%-name%></title>
 
         <!--calendar css-->
         <link href="assets/plugins/fullcalendar/dist/fullcalendar.css" rel="stylesheet" />
@@ -46,7 +46,7 @@
 
                 <!-- LOGO -->
                 <div class="topbar-left">
-                    <a href="index.html" class="logo"><span>Admin<span>to</span></span><i class="zmdi zmdi-layers"></i></a>
+                    <a href="/profile" class="logo"><span>Admin<span>to</span></span><i class="zmdi zmdi-layers"></i></a>
                 </div>
 
                 <!-- Button mobile view to collapse sidebar menu -->
@@ -106,19 +106,13 @@
                     <!-- User -->
                     <div class="user-box">
                         <div class="user-img">
-                            <img src="assets/images/users/avatar-1.jpg" alt="user-img" title="Mat Helme" class="img-circle img-thumbnail img-responsive">
+                            <img src="<%-avatar%>" alt="user-img<%-name%>" title="<%-name%>" class="img-circle img-thumbnail img-responsive">
                             <div class="user-status offline"><i class="zmdi zmdi-dot-circle"></i></div>
                         </div>
-                        <h5><a href="#">Mat Helme</a> </h5>
+                        <h5><a href="#"><%-name%></a> </h5>
                         <ul class="list-inline">
                             <li>
-                                <a href="#" >
-                                    <i class="zmdi zmdi-settings"></i>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="text-custom">
+                                <a href="/logout" class="text-custom" id="btn-logout">
                                     <i class="zmdi zmdi-power"></i>
                                 </a>
                             </li>
@@ -400,6 +394,12 @@
         <script src="assets/plugins/moment/moment.js"></script>
         <script src='assets/plugins/fullcalendar/dist/fullcalendar.min.js'></script>
         <script src="assets/pages/jquery.fullcalendar.js"></script>
+        <script>
+            $("#btn-logout").attr({
+                href: '/logout'
+            });
+            $("#btn-logout").children().css({"color":"#98a6ad"})
+        </script>
 
     </body>
 </html>

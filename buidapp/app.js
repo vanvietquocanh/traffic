@@ -4,19 +4,28 @@ var passport = require("passport")
 var bodyParser = require('body-parser');
 var FacebookStrategy = require('passport-facebook');
 var sassMiddleware = require('node-sass-middleware');
-var session = require("express-session")
+var session = require("express-session");
+var infoAPI = require("./routes/apiInfo.js");
+
 
 var home = require('./routes/home');
+var redirectAdmin = require('./routes/redirectAdmin');
+var demote = require('./routes/demote');
+var dismissal = require('./routes/dismissal');
+var promote = require('./routes/promote');
 var index = require('./routes/index');
 var signin = require('./routes/signin');
 var saveData = require('./routes/saveData');
 var apiAwaitingApproval = require('./routes/apiAwaitingApproval');
+var apiMember = require('./routes/apiMember');
 var calendar = require('./routes/calendar');
 var profile = require('./routes/profile');
 var special = require('./routes/special');
 var offers = require('./routes/offers');
 var phono = require('./routes/phono');
+var getListMaster = require('./routes/getMasterList');
 var checkicon = require('./routes/checkicon');
+var logout = require('./routes/logout');
 
 var app = express();
 
@@ -33,24 +42,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session(
                 { secret: 'coppycat',
-                  resave: true,
-                  saveUninitialized: true,
+                  resave: false,
+                  saveUninitialized: false,
                   cookie:{
-                    path:"/admin",
-                    maxAge:86400000
+                    maxAge: 86400000,
                   }
                 }
               ));
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new FacebookStrategy({
-    clientID: "148127002482488",
-    clientSecret: "f85117c134e80d3ecd07b4baa3bb41a4",
-    callbackURL: 'http://localhost:3000/admin',
-    profileFields: ['id', 'displayName', 'photos', 'email'],
-     enableProof :  false
-  }, function(accessToken, refreshToken, profile, done) {
+passport.use(new FacebookStrategy(infoAPI, function(accessToken, refreshToken, profile, done) {
       done(null, profile);
     }))
 passport.serializeUser((user, done)=>{
@@ -63,15 +65,22 @@ passport.deserializeUser((id, done)=>{
 app.route("/facebook").get(passport.authenticate("facebook"))
 app.use('/', home);
 app.use('/signin', signin);
-app.use('/admin', index);
+app.use('/admin', redirectAdmin);
+app.use('/dashboard', index);
 app.use('/calendar', calendar);
 app.use('/savedata', saveData);
 app.use('/apiAwaitingApproval', apiAwaitingApproval);
+app.use('/member', apiMember);
 app.use('/profile', profile);
 app.use('/special', special);
 app.use('/offers', offers);
 app.use('/phono', phono);
+app.use('/demote', demote);
+app.use('/dismissal', dismissal);
+app.use('/promote', promote);
 app.use('/checkicon', checkicon);
+app.use('/getmasterlist', getListMaster);
+app.use('/logout', logout);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

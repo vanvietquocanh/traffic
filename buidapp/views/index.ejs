@@ -8,7 +8,7 @@
 
         <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-        <title>Adminto - Responsive Admin Dashboard Template</title>
+        <title>Adminto - <%-name%></title>
 
         <!--Morris Chart CSS -->
     <link rel="stylesheet" href="assets/plugins/morris/morris.css">
@@ -45,7 +45,7 @@
 
                 <!-- LOGO -->
                 <div class="topbar-left">
-                    <a href="/" class="logo"><span>Admin<span>to</span></span><i class="zmdi zmdi-layers"></i></a>
+                    <a href="/profile" class="logo"><span>Admin<span>to</span></span><i class="zmdi zmdi-layers"></i></a>
                 </div>
 
                 <!-- Button mobile view to collapse sidebar menu -->
@@ -111,14 +111,8 @@
                         <h5><a href="#"><%-name%></a> </h5>
                         <ul class="list-inline">
                             <li>
-                                <a href="#" >
-                                    <i class="zmdi zmdi-settings"></i>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" class="text-custom">
-                                    <i class="zmdi zmdi-power"></i>
+                                <a href="/logout" class="text-custom" id="btn-logout">
+                                    <i class="zmdi zmdi-power" id="btn-logout-icon"></i>
                                 </a>
                             </li>
                         </ul>
@@ -178,28 +172,18 @@
                                             <i class="zmdi zmdi-more-vert"></i>
                                         </a>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Action</a></li>
-                                            <li><a href="#">Another action</a></li>
-                                            <li><a href="#">Something else here</a></li>
+                                            <li id="promote" style="display: block; cursor: pointer;"><a>Promote</a></li>
+                                            <li id="demote" style="display: block; cursor: pointer;"><a>Demote</a></li>
+                                            <li id="dismissal" style="display: block; cursor: pointer;"><a>Dismissal</a></li>
                                             <li class="divider"></li>
-                                            <li><a href="#">Separated link</a></li>
+                                            <li id="memberMasterList" style="display: block; cursor: pointer;"><a>Master List</a></li>
                                         </ul>
                                     </div>
 
-                              <h4 class="header-title m-t-0 m-b-30">Member List</h4>
+                              <h4 class="header-title m-t-0 m-b-30" id="memListTit">Member List</h4>
 
                     <div id="renderAPIdata" class="inbox-widget nicescroll" style="height: 315px;">
-                         <label for="person" style="width:100%">
-                            <a href="#">
-                                <div class="inbox-item">
-                                    <div class="inbox-item-img"><img src="" class="img-circle" alt=""></div>
-                                    <p class="inbox-item-author">Chadengle</p>
-                                    <p class="inbox-item-text">Hey! there I'm available...</p>
-                                    <p class="inbox-item-date">13:40 PM</p>
-                                    <input class="checkbox-person" type="checkbox" name="" id="person" value="">
-                                </div>
-                            </a>
-                        </label>               
+                         
                     </div>
                 </div>
                             </div><!-- end col -->
@@ -253,7 +237,7 @@
                         <li class="list-group-item">
                             <a href="#" class="user-list-item">
                                 <div class="avatar">
-                                    <img src="assets/images/users/avatar-2.jpg" alt="">
+                                    <img src="" alt="">
                                 </div>
                                 <div class="user-desc">
                                     <span class="name">Michael Zenaty</span>
@@ -289,7 +273,7 @@
                         <li class="list-group-item active">
                             <a href="#" class="user-list-item">
                                 <div class="avatar">
-                                    <img src="assets/images/users/avatar-3.jpg" alt="">
+                                    <img src="" alt="">
                                 </div>
                                 <div class="user-desc">
                                     <span class="name">James Anderson</span>
@@ -354,7 +338,8 @@
         <script src="assets/js/jquery.core.js"></script>
         <script src="assets/js/jquery.app.js"></script>
         <script src="assets/js/customs/adminApi.js"></script>
-        <!-- <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script> -->
-        <!-- <script src="./assets/js/customs/appApi.js"></script> -->
+          <script>
+            $("#btn-logout").children().css({"color":"#98a6ad"})
+        </script>
     </body>
 </html>
