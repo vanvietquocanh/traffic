@@ -20,6 +20,7 @@ router.get('/', function(req, res, next) {
  					"idFacebook": req.user.id,
  					"profile"   : req.user,
  					"timeregis" : strToday,
+ 					"report" 	: [],
 					"admin"     : false,
 					"master"    : false,
 					"member"    : false
@@ -36,15 +37,13 @@ router.get('/', function(req, res, next) {
 							res.end();
 						}
 						if(result){
-							if(result.member){
 								var admin = `<li>
 		                               			<a href="/admin" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
 		                            		</li>`;
-								if(result.admin||result.master){
-		                            renderPage("index",admin)
-								}else{
+							if(result.member){
 		                            renderPage("offers",admin)
-								}
+							}else if(result.admin||result.master){
+		                        renderPage("index", admin)
 							}else{
 								res.render("error",{
 									error:{

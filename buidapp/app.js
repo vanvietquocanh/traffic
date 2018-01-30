@@ -22,13 +22,22 @@ var calendar = require('./routes/calendar');
 var profile = require('./routes/profile');
 var special = require('./routes/special');
 var offers = require('./routes/offers');
-var phono = require('./routes/phono');
+var trackkinglink = require('./routes/trackkinglink');
+var postback = require('./routes/postBack');
 var getListMaster = require('./routes/getMasterList');
+var autoRequestLink = require('./routes/autoRequestLink');
 var checkicon = require('./routes/checkicon');
+var checkParameter = require('./routes/checkParameter');
+var getReportClick = require('./routes/getReportClick');
+var apiGetDataReportClick = require('./routes/apiGetDataReportClick');
+var addNetwork = require('./routes/addNetwork');
+var listNetwork = require('./routes/listNetwork');
+var updateNetwork = require('./routes/updateNetwork');
+var postback = require('./routes/postBack');
 var logout = require('./routes/logout');
 
 var app = express();
-
+app.enable('trust proxy')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -40,6 +49,8 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/checkparameter', checkParameter);
+app.use('/', postback);
 app.use(session(
                 { secret: 'coppycat',
                   resave: false,
@@ -61,7 +72,6 @@ passport.serializeUser((user, done)=>{
 passport.deserializeUser((id, done)=>{
   done(null, id)
 })
-
 app.route("/facebook").get(passport.authenticate("facebook"))
 app.use('/', home);
 app.use('/signin', signin);
@@ -74,12 +84,19 @@ app.use('/member', apiMember);
 app.use('/profile', profile);
 app.use('/special', special);
 app.use('/offers', offers);
-app.use('/phono', phono);
+app.use('/reportclick', getReportClick);
+app.use('/trackkinglink', trackkinglink);
 app.use('/demote', demote);
 app.use('/dismissal', dismissal);
 app.use('/promote', promote);
+app.use('/postback', postback);
 app.use('/checkicon', checkicon);
 app.use('/getmasterlist', getListMaster);
+app.use('/autorequestlink', autoRequestLink);
+app.use('/addnetwork', addNetwork);
+app.use('/reportclickgetdata', apiGetDataReportClick);
+app.use('/listnetwork', listNetwork);
+app.use('/updatenetwork', updateNetwork);
 app.use('/logout', logout);
 
 // catch 404 and forward to error handler

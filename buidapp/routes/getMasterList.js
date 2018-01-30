@@ -9,14 +9,13 @@ router.post('/', function(req, res, next) {
 	function getMaster (){
 			try{
 				var query = {
-					master : "true",
+					master : true,
 					admin  : false,
 					member : false
 				}	
 				mongo.connect(pathMongodb,function(err,db){
 					assert.equal(null,err);
 						db.collection('userlist').find(query).toArray((err, result)=> {
-							console.log(result)
 							res.send(result)
 						});
 				});

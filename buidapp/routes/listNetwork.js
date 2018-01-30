@@ -5,42 +5,46 @@ const assert = require('assert');
 
 
 const pathMongodb = 'mongodb://127.0.0.1:27017/admintraffic';
+/* GET home page. */
 router.post('/', function(req, res, next) {
-	function getMem() {
-		var query = {
-			"master": false,
-			"admin" : false,
-			"member": true
-		}
+	function getDB(){
 		try{
+			var query = {
+				"isNetwork" : true
+			}
 			mongo.connect(pathMongodb,function(err,db){
 				assert.equal(null,err);
-					db.collection('userlist').find(query).toArray((err, result)=> {
-						res.send(result)
-					});
+					db.collection('userlist').findOne(query, function(err,result){
+						if(!err){
+							res.send(result)
+						}else {
+							res.send(err)
+						}
+					assert.equal(null,err);
+					db.close();
+				});
 			});
 		}catch(e){
 			res.redirect("/")
-		}
+			res.end();
+		}	
 	}
-	try{
+	try {
 		var query = {
 			"idFacebook" : req.user.id
 		}
 		mongo.connect(pathMongodb,function(err,db){
 			assert.equal(null,err);
-				db.collection('userlist').findOne(query,function(err,result){
-					if(result.admin||result.master){
-						getMem()
-					}else{
-						res.send("Mày đéo phải admin/master");
+				db.collection('userlist').findOne(query, function(err,result){
+					if(result.admin){
+						getDB()
 					}
 				assert.equal(null,err);
 				db.close();
 			});
 		});
-	}catch(e){
-		res.redirect("/")
+	} catch(e) {
+		res.redirect("/");
 		res.end();
 	}
 });

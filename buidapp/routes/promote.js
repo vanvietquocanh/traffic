@@ -11,7 +11,7 @@ router.post('/', function(req, res, next) {
 			var today = new Date();
 		 	var strToday = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()} - ${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`;
 			var data = {
-					$set:{"master":value, "sessionTime":strToday}
+					$set:{"master":value, "sessionTime":strToday, "member":false, "admin":false}
 				}
 				var query = {
 					"idFacebook" : id
@@ -44,8 +44,7 @@ router.post('/', function(req, res, next) {
 					assert.equal(null,err);
 						db.collection('userlist').findOne(query,function(err,result){
 							if(result.admin){
-								console.log(result.admin)
-								promoteMaster(req.body.id, req.body.master)
+								promoteMaster(req.body.id, true)
 							}
 						assert.equal(null,err);
 						db.close();

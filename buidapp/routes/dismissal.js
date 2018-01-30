@@ -6,11 +6,11 @@ const assert = require('assert');
 
 const pathMongodb = 'mongodb://127.0.0.1:27017/admintraffic';
 router.post('/', function(req, res, next) {
-	function dismissalPerson (id, value){
+	function dismissalPerson (id){
 		var today = new Date();
 	 	var strToday = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()} - ${today.getDate()}/${today.getMonth()+1}/${today.getFullYear()}`;
 		var data = {
-				$set:{"master":value, "sessionTime":strToday}
+				$set:{"master":false, "sessionTime":strToday, "member":false, "admin":false}
 			}
 			var query = {
 				"idFacebook" : id
@@ -40,7 +40,7 @@ router.post('/', function(req, res, next) {
 				assert.equal(null,err);
 					db.collection('userlist').findOne(query,function(err,result){
 						if(result.admin){
-							dismissalPerson(req.body.id, req.body.master)
+							dismissalPerson(req.body.id)
 						}
 					assert.equal(null,err);
 					db.close();

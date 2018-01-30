@@ -383,10 +383,6 @@
                                                                                 <option value="canno">Canno</option>
                                                                                 <option value="Unopened">Unopened</option>
                                                                             </select>
-                                                                            <select name="members" id="members">
-                                                                                <option value="">Members</option>
-                                                                            </select>
-                                                                            <button id="addOffer">Add Offer</button>
                                                                             <div class="button-refresh" id="download-btn" style="width:8%;margin: 0 0 1em 0;margin-left: 90%">
                                                                                 <a id="download"><i class="fa fa-download"></i>  Download</a>
                                                                             </div>
@@ -408,17 +404,14 @@
                                                                                         <thead>
                                                                                             <tr role="row">
                                                                                                 <th class="sorting_asc fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 0px;">ID</th>
+                                                                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="platform: activate to sort column ascending" style="width: 0px;text-align: center;">Name</th>
                                                                                                 <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="platform: activate to sort column ascending" style="width: 0px;text-align: center;">Offer ID</th>
-                                                                                                <th class="sorting" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="platform: activate to sort column ascending" style="width: 0px;text-align: center;">Platform</th>
-                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Image: activate to sort column ascending" style="width: 0px;text-align: center;">Thumbnail</th>
-                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 300px;">Name</th>
-                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Url: activate to sort column ascending" style="width: 650px;">Url</th>
-                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Payout: activate to sort column ascending" style="width: 10px;">Payout</th>
-                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Cap: activate to sort column ascending" style="width: 10px;">Cap</th>
-                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Country: activate to sort column ascending" style="width: 10px;">Country</th>
-                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Click: activate to sort column ascending" style="width: 10px;">Click</th>
-                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Lead: activate to sort column ascending" style="width: 10px;">Conversion</th>
-                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Request: activate to sort column ascending" style="width: 10px;">CVR</th>
+                                                                                                <%- idFacebook%>
+                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 300px;">Time</th>
+                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Url: activate to sort column ascending" style="width: 650px;">IP Address</th>
+                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Payout: activate to sort column ascending" style="width: 0px;">User Agent</th>
+                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Cap: activate to sort column ascending" style="width: 10px;">Country</th>
+                                                                                                <th class="sorting fixcenter" tabindex="0" aria-controls="datatable-responsive" rowspan="1" colspan="1" aria-label="Country: activate to sort column ascending" style="width: 0px;">Transaction ID</th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
@@ -574,16 +567,19 @@
         <!-- App js -->
         <script src="assets/js/jquery.core.js"></script>
         <script src="assets/js/jquery.app.js"></script>
-        <!-- <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script> -->
-        <script src="./assets/js/customs/appApi.js"></script>
-        <script src="./assets/js/customs/download-sort.js"></script>
+        <script src="assets/js/customs/appApi.js"></script>
         <script>
             $("a[href = 'special']").addClass('active');
             $("#btn-logout").children().css({"color":"#98a6ad"})
+            $("#btn-logout").hover(function() {
+                $("#btn-logout").children().css({"color":"#188ae2"})
+            }, function() {
+                $("#btn-logout").children().css({"color":"#98a6ad"})
+            });
             //call API file appApi.js
-            sortItems.getAPI("trackkinglink");
+            sortItems.getAPI("reportclickgetdata");
             window.onscroll = function(){
-                sortItems.scroll();
+                sortItems.scrollReportClick();
             }
         </script>
     </body>

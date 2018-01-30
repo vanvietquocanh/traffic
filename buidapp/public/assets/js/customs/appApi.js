@@ -2,142 +2,136 @@
 var table = $('tbody');
 var sortItems = new SortItems;
 var paginationUL = $('#pag');
+var countItemsInSide = 50;
+var countItemsReportClick = 50;
+var country = $("#country");
+var platform = $("#os");
+var result = $("#result");
+var download = $('#download-btn');
+var sortOS = $("#os");
+var sortCountry = $("#country");
+var tagDownload = $("#download");
+var rowsTable = $("fixcenter");
+var search = $('#search');
+var refresh = $("#refresh")
 function SortItems() {
-	this.list = [],
-	this.id = []
+	this.list;
+	this.admin;
+	this.dataReportClick;
 }
-SortItems.prototype.getAPI = function(){
+SortItems.prototype.getAPI = function(path){
 	let data = null;
-	$.post( "http://localhost:3000/phono",data,function(res) {
-	  	sortItems.checkicon(res);
-	});
-};
-SortItems.prototype.platform = function(link){
-	if(link.indexOf("play.google.com")!==-1){
-		return "./assets/images/android.png";
-    }else if(link.indexOf("itunes.apple.com")!==-1){
-		return "./assets/images/apple.png";
-    }else{
-		return "./assets/images/error.png";
-    }
-};
-SortItems.prototype.getIconLink = function(links){
-	table.empty();
-	$.each(links,function(index, link) {
-		if(link){
-			let data = {
-				"id" : link
-			};
-			$.post( "http://localhost:3000/checkicon",data,function(res) {
-				sortItems.render(res,sortItems.list[index], index);
+	switch (path) {
+		case "trackkinglink":
+			$.post( `/${path}`,data,function(res) {
+				sortItems.setData(res.offerList, res.admin)
 			});
-		}else{
-			sortItems.render(null,sortItems.list[index], index);
-		}
-	});
+			break;
+		case "reportclickgetdata":
+			$.post( `/${path}`,data,function(res) {
+				sortItems.setDataReport(res,null);
+			});
+			break;
+		default:
+			break;
+	}
 };
-SortItems.prototype.checkicon = function(res) {
-	try {
-		res.forEach((el,index)=>{
-			var data = new Object;
-			if (!el.offer_geo.target){
-				data.country = '';
+SortItems.prototype.setDataReport = function(data, idFacebook){
+	this.dataReportClick = data;
+	this.admin = idFacebook;
+	sortItems.renderReport(countItemsReportClick)
+};
+SortItems.prototype.setData = function(data, isAdmin){
+	this.list = data;
+	this.admin = isAdmin;
+	table.empty();
+	sortItems.render(countItemsInSide);
+};
+SortItems.prototype.scroll = ()=>{
+	var heightScreen = $("#datatable-responsive_wrapper").height();
+	if($(window).scrollTop() > heightScreen/1000*690){
+		table.empty();
+		countItemsInSide=countItemsInSide+50;
+		sortItems.render(countItemsInSide);
+	}
+}
+SortItems.prototype.render = function(countItem){
+	var elementHtml = "";
+	var affID = this.admin;
+	var lengthofListOffers = this.list.length;
+	$.each(this.list, function(i, array) {
+
+		$.each(array.data.offers, function(index, val) {
+			var pathRedirect = `http://128.199163.213:3000/checkparameter/?offer_id=${index}&aff_id=${affID}`;
+			if(index < countItem/lengthofListOffers){
+				elementHtml += `<tr role="row" class="odd fixcenter sel-items" style="color: #fff">
+									<td class="sorting_1" tabindex="0" style="color: #fff">${index}</td>
+									<td class="sorting_1" tabindex="0" style="color: #fff">${val.offerid}</td>`;
+			if(val.platform==="android"){
+					elementHtml += `<td><img class="platformIcon" src="./assets/images/android.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
 			}else{
-				if(!el.offer_geo.target[0]){
-					data.country = "";
-				}else {
-					data.country = el.offer_geo.target[0].country_code;
-				}
+					elementHtml += `<td><img class="platformIcon" src="./assets/images/apple.png" alt="" style="width: 30px;border-radius:15em;"></td>`;
 			}
-			data   		=   {
-				"app"		: [],
-				"id"		: el.offer.id,
-				"name" 		: el.offer.name,
-				"link"		: sortItems.cutIdApp(el.offer.preview_url),
-				"country" 	: el.offer_geo.target,
-				"platform"  : sortItems.platform(el.offer.preview_url),
-				"url"    	: el.offer.tracking_link,
-				"payout" 	: el.offer.payout,
-				"category"  : el.offer.category,
-			};
-			if(!el.offer_cap){
-				data.cap = '';
-			}else {
-				data.cap = el.offer_cap.cap_conversion;
+					elementHtml += `<td><img src="${val.icon_url}" class="iconItems" alt="" style="width: 30px;border-radius:15em;"></td>
+									<td class="showItems-name">${val.app_name}</td>`;
+			if(this.admin === "904759233011090"){
+					elementHtml += `<td style="color: #fff;">${val.offer_url}</td>`;
+			}else{
+					elementHtml += `<td style="color: #fff;">${pathRedirect}</td>`;
 			}
-			this.list.push(data);
-			this.id.push(data.link);
-			if(index === res.length-1){
-				sortItems.getIconLink(this.id)
+					elementHtml += `<td>${val.payout}</td>
+									<td>${val.daily_cap}</td>
+									<td style="max-width:10px;">${val.geo}</td>
+									<td> Click </td>
+									<td> Conversion </td>
+									<td> CVR </td>
+								</tr>`;
 			}
 		});
-	} catch(e) {
-		sortItems.getAPI();
-	}
-}
-SortItems.prototype.cutIdApp = function(link){
-	var idApp;
-    if(link.indexOf("play.google.com")!==-1){
-        idApp = link.split("id=")[1].split("&")[0];
-        return idApp;
-    }else if(link.indexOf("itunes.apple.com")!==-1){
-    	var x = link.split("/id").length-1;
-    	idApp = link.split("id")[link.split("id").length-1].split("?")[0];
-    	return idApp;
-    }
-};
-SortItems.prototype.render = function(response, config, index){
-	if(response){
-		this.list[index].icon = response;
-	}
-	for (var i = 0; i < this.list.length; i++) {
-		var elementHtml = 	`<tr role="row" class="odd fixcenter sel-items">
-								<td class="sorting_1" tabindex="0">${config.id}</td>
-								<td><img class="platformIcon" src="${config.platform}" alt="" style="width: 15%;border-radius:15em;"></td>`;
-		if(config.icon){
-			if(config.icon.icon===undefined){
-				elementHtml+=  `<td>${"ERROR"}</td>
-								<td>ID:${config.icon.id}</td>`;
-			}else{
-				elementHtml+=  `<td><img src="${config.icon.icon}" class="iconItems" alt="" style="width: 100%;border-radius:15em;"></td>
-								<td class="showItems-name">${config.icon.name}</td>`;
-			}
-		}else{
-			elementHtml+=  	   `<td><img src""></td>
-								<td></td>`;
-		}
-		elementHtml+=	   	   `<td class="showItems-url">${config.url}</td>
-								<td>${config.payout}</td>
-								<td>${config.cap}</td>`
-		if(config.country[0] === undefined || config.country[0] === null){	
-			elementHtml+=  	   `<td class="showItems-country"></td>`;
-		}else {
-			elementHtml+=  	   `<td class="showItems-country">${config.country[0].country_code}</td>`;
-		}
-			elementHtml+=  	   `<td>${config.category}</td>
-								<td>lead</td>
-								<td>click</td>
-								<td>request</td>
-							</tr>`;
-	}
+	});
 	table.append(elementHtml);
 	setTimeout(()=>{
-		$(".iconItems").css("width",$('.platformIcon').width())
-	},1000)
+		var widthItem = `${$(".iconItems")[0].width}px`;
+		$(".platformIcon").css("width",)
+	},500)
 };
-SortItems.prototype.addPagination = function(data) {
-	let elementHtml =  `<li class="paginate_button previous disabled" aria-controls="datatable-responsive" tabindex="0" id="datatable-responsive_previous">
-                            <a href="#">Previous</a>
-                        </li>`;
-    $.each(function(index, el) {
-    	elementHtml+= `<li class="paginate_button" aria-controls="datatable-responsive" tabindex="0">
-                            <a href="#"></a>
-                        </li>`;
-    });                
-    elementHtml+=`<li class="paginate_button next" aria-controls="datatable-responsive" tabindex="0" id="datatable-responsive_next">
-                            <a href="#">Next</a>
-                        </li>`;
-    paginationUL.append(elementHtml);
+SortItems.prototype.renderReport = function(countItem) {
+	table.empty();
+	var elementHtml = "";
+	$.each(this.dataReportClick, function(index, val) {
+		if(index < countItem){
+			elementHtml += `<tr role="row" class="odd fixcenter sel-items" style="color: #fff">
+								<td class="sorting_1" tabindex="0" style="color: #fff">${val.id}</td>
+								<td class="sorting_1" tabindex="0" style="color: #fff">${val.name}</td>
+								<td class="showItems-name">${val.idOffer}</td>
+								<td style="color: #fff;">${val.time}</td>
+								<td style="color: #fff;">${val.ip}</td>
+								<td>${val.agent}</td>
+								<td style="max-width:10px;">${"Country"}</td>
+								<td>${val.key}</td>
+							</tr>`;
+		}
+	});
+	table.append(elementHtml);
 }
-
-sortItems.getAPI();
+// tagDownload.click(function(event) {
+// 	sortItems.download("text.txt")
+// });
+// sortOS.change(function(event) {
+// 	let valueOSSelect = event.target.value;
+// 	let valueCountrySelect = sortCountry.val().toUpperCase();
+// 	sortItems.sortList(valueCountrySelect, valueOSSelect);
+// });
+// sortCountry.change(function(event) {
+// 	let valueOSSelect = sortOS.val();
+// 	let valueCountrySelect = event.target.value.toUpperCase();
+// 	sortItems.sortList(valueCountrySelect, valueOSSelect);
+// });
+// search.keyup(function(event) {
+// 	let valueOSSelect = sortOS.val();
+// 	let valueCountrySelect = sortCountry.val().toUpperCase();
+// 	sortItems.sortList(valueCountrySelect, valueOSSelect, search.val());
+// });
+// refresh.click(()=>{
+// 	window.location.href = window.location.href;
+// })
